@@ -55,6 +55,25 @@ export async function getAllGameIds(db: Database): Promise<number[]> {
 - Map raw rows to the app-facing `Game`/`Publisher`/`Category` types in one place; don't leak Drizzle row shapes into components.
 - Keep ordering/lookup logic in `games.ts`, not in pages.
 
+### Exported API Documentation
+
+- Every exported function in `db/` and `src/lib/` must have a TSDoc/JSDoc comment directly above its declaration.
+- The comment must describe the function's purpose and include `@param` for each parameter and `@returns` for the returned value. Describe the injectable `db` parameter explicitly when a helper accepts it.
+- Document exported constants or types when their purpose is not clear from their name. Keep implementation comments focused on intent, constraints, or decisions rather than restating code.
+- Treat stale comments as bugs: update or remove documentation when the related behavior changes.
+
+```ts
+/**
+ * Returns all games in deterministic title order.
+ *
+ * @param db Database connection used to query the games and their relations.
+ * @returns Games mapped to the application-facing model.
+ */
+export async function getAllGames(db: Database): Promise<Game[]> {
+  // ...
+}
+```
+
 ## Determinism
 
 Seed-derived values must be reproducible across builds. Derive star ratings from a stable hash of the title (`ratingFromTitle`) — **never** `Math.random()`.
@@ -70,3 +89,9 @@ Node.js 22.13 or later is required because the data layer uses the built-in `nod
 ## Type checking
 
 The data layer (`db/**/*.ts`, `src/lib/*.ts`) is type-checked by `npm run typecheck`, which runs the native **TypeScript 7** compiler (`tsgo`, from `@typescript/native-preview`) against `tsconfig.tsgo.json`. Keep helpers exported with explicit parameter and return types so `tsgo` can verify them. Linting is unaffected — ESLint + `typescript-eslint` still run on the classic `typescript` package.
+
+## TypeScript Formatting
+
+- Use single quotes for strings, semicolons, trailing commas where the surrounding syntax supports them, and four-space indentation in TypeScript.
+- Keep exported functions' parameter and return types explicit; ESLint enforces explicit module-boundary types for `db/` and `src/lib/`.
+- Prefer `import type` for type-only imports and avoid broad casts when a type guard or a more precise type is available.
