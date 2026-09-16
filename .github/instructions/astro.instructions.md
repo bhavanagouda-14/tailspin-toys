@@ -32,6 +32,13 @@ const games = await getAllGames(getDatabase());
 </Layout>
 ```
 
+### Component Contracts and Comments
+
+- Every reusable component must declare its public API in a `Props` interface in frontmatter, even when it currently has only one prop.
+- Keep `Props` fields explicitly typed. Use TSDoc comments for fields whose purpose, accepted values, or constraints are not obvious from the name and type.
+- In Astro markup and frontmatter, comments must explain intent or a non-obvious decision. Do not add comments that paraphrase the markup or expression below them.
+- Keep comments current with the behavior they describe; update or remove stale comments when changing the related component.
+
 ## Layouts
 
 - Create reusable layout components in `src/layouts/`

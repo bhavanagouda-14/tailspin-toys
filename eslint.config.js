@@ -39,5 +39,15 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
     },
+    rules: {
+      // Keep exported TypeScript APIs self-describing and safe for callers.
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "separate-type-imports" },
+      ],
+      quotes: ["error", "single", { allowTemplateLiterals: true }],
+      semi: ["error", "always"],
+    },
   },
 ];
